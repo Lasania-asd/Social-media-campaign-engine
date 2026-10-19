@@ -1,0 +1,35 @@
+{
+  "name": "6sense-campaign-engine",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Internal LinkedIn campaign engine for 6sense HQ \u2014 plan, research, draft (3-round feedback), render visuals, track results.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.9"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env --watch server/index.js & vite --config client/vite.config.js",
+    "build": "vite build --config client/vite.config.js",
+    "start": "node --env-file-if-exists=.env server/index.js",
+    "seed": "node --env-file-if-exists=.env server/seed/seed.js",
+    "reset": "rm -f data/campaign.db* && rm -rf data/renders && node --env-file-if-exists=.env server/seed/seed.js",
+    "sweep": "node --env-file-if-exists=.env server/lib/autopilot.js --sweep-now",
+    "backup": "node -e \"const D=require('better-sqlite3');const d=new D('data/campaign.db');d.backup('data/backup-'+new Date().toISOString().slice(0,10)+'.db').then(()=>console.log('backup written'))\""
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.60.0",
+    "@fontsource/red-hat-display": "^5.0.0",
+    "better-sqlite3": "^11.0.0",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.21.0",
+    "luxon": "^3.5.0",
+    "node-cron": "^3.0.3",
+    "playwright-core": "^1.48.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^5.4.0"
+  }
+}
